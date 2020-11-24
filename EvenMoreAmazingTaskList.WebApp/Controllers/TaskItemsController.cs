@@ -7,40 +7,42 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EvenMoreAmazingTaskList.Domain.Entities;
 using EvenMoreAmazingTaskList.Infrastructure;
+using EvenMoreAmazingTaskList.Domain.Services;
 
 namespace EvenMoreAmazingTaskList.WebApp.Controllers
 {
     public class TaskItemsController : Controller
     {
-        private readonly EvenMoreAmazingTaskListDbContext _context;
+        private readonly TaskListService _service;
 
-        public TaskItemsController(EvenMoreAmazingTaskListDbContext context)
+        public TaskItemsController(TaskListService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: TaskItems
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.TaskItems.ToListAsync());
+            return View(_service.GetAllTaskItems());
         }
 
         // GET: TaskItems/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var taskItem = await _context.TaskItems
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (taskItem == null)
-            {
-                return NotFound();
-            }
+            //var taskItem = await _service.TaskItems
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (taskItem == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(taskItem);
+            //return View(taskItem);
+            return NotFound();
         }
 
         // GET: TaskItems/Create
@@ -59,8 +61,7 @@ namespace EvenMoreAmazingTaskList.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 taskItem.Id = Guid.NewGuid();
-                _context.Add(taskItem);
-                await _context.SaveChangesAsync();
+                _service.AddTaskItem(taskItem);
                 return RedirectToAction(nameof(Index));
             }
             return View(taskItem);
@@ -69,17 +70,18 @@ namespace EvenMoreAmazingTaskList.WebApp.Controllers
         // GET: TaskItems/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var taskItem = await _context.TaskItems.FindAsync(id);
-            if (taskItem == null)
-            {
-                return NotFound();
-            }
-            return View(taskItem);
+            //var taskItem = await _service.TaskItems.FindAsync(id);
+            //if (taskItem == null)
+            //{
+            //    return NotFound();
+            //}
+            //return View(taskItem);
+            return NotFound();
         }
 
         // POST: TaskItems/Edit/5
@@ -89,50 +91,52 @@ namespace EvenMoreAmazingTaskList.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,Description")] TaskItem taskItem)
         {
-            if (id != taskItem.Id)
-            {
-                return NotFound();
-            }
+            //if (id != taskItem.Id)
+            //{
+            //    return NotFound();
+            //}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(taskItem);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TaskItemExists(taskItem.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(taskItem);
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _service.Update(taskItem);
+            //        await _service.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!TaskItemExists(taskItem.Id))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //return View(taskItem);
+            return NotFound();
         }
 
         // GET: TaskItems/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var taskItem = await _context.TaskItems
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (taskItem == null)
-            {
-                return NotFound();
-            }
+            //var taskItem = await _service.TaskItems
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (taskItem == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(taskItem);
+            //return View(taskItem);
+            return NotFound();
         }
 
         // POST: TaskItems/Delete/5
@@ -140,15 +144,17 @@ namespace EvenMoreAmazingTaskList.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var taskItem = await _context.TaskItems.FindAsync(id);
-            _context.TaskItems.Remove(taskItem);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //var taskItem = await _service.TaskItems.FindAsync(id);
+            //_service.TaskItems.Remove(taskItem);
+            //await _service.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
+            throw new NotImplementedException();
         }
 
         private bool TaskItemExists(Guid id)
         {
-            return _context.TaskItems.Any(e => e.Id == id);
+            //return _service.TaskItems.Any(e => e.Id == id);
+            throw new NotImplementedException();
         }
     }
 }
